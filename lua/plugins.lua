@@ -15,11 +15,13 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup({
     {
-        "ellisonleao/gruvbox.nvim",
+        'sainnhe/gruvbox-material',
+        lazy = false,
+        priority = 1000,
         config = function()
-            vim.o.background = "dark"
-            vim.cmd("colorscheme gruvbox")
-        end
+            vim.g.gruvbox_material_enable_italic = true
+            vim.cmd.colorscheme('gruvbox-material')
+        end,
     },
     { "wakatime/vim-wakatime", lazy = false },
     {
@@ -67,6 +69,8 @@ require("lazy").setup({
                             ["ac"] = "@class.outer",
                             ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
                             ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+                            ["at"] = "@tag.outer",
+                            ["it"] = "@tag.inner",
                         },
                         selection_modes = {
                             ['@parameter.outer'] = 'v',
@@ -129,5 +133,18 @@ require("lazy").setup({
         event = "InsertEnter",
         config = true
     },
+    {
+        "mlaursen/vim-react-snippets",
+    },
+
+    {
+        'akinsho/bufferline.nvim',
+        version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function()
+            require("bufferline").setup{}
+        end,
+    },
+    { "lukas-reineke/indent-blankline.nvim", main = "ibl", opts = {} }
 })
 
