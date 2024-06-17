@@ -3,3 +3,4 @@
 - [ ] code snippets
 - [ ] syntax support
 - [ ] git support
+- [ ] comments 
