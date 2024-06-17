@@ -20,17 +20,19 @@ vim.filetype.add({
     },
 })
 
--- format on save
-vim.api.nvim_create_augroup("AutoFormat", {})
+vim.api.nvim_create_user_command(
+    'NewFile',
+    function(opts)
+        -- Extract the directory and file name from the argument
+        local full_path = opts.args
+        local dir, file = full_path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
 
-vim.api.nvim_create_autocmd(
-"BufWritePost",
-{
-    pattern = "*.py",
-    group = "AutoFormat",
-    callback = function()
-        vim.cmd("silent !black --quiet %")
-    vim.cmd("edit")
+        -- Ensure the directory exists
+        vim.fn.mkdir(dir, "p")
+
+        -- Open the file in a new buffer
+        vim.cmd('edit ' .. full_path)
     end,
-}
+    { nargs = 1, complete = 'file' }
 )
+  vim.g.neovide_input_macos_alt_is_meta = true

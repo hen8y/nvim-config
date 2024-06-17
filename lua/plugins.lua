@@ -24,6 +24,11 @@ require("lazy").setup({
             require('onedark').load()
         end,
     },
+    change_detection = { notify = false },
+    checker = {
+        enabled = true, -- automatically check for plugin updates
+        notify = false, -- get a notification when new updates are found
+    },
     { "wakatime/vim-wakatime", lazy = false },
     {
         "nvim-treesitter/nvim-treesitter",
@@ -164,16 +169,15 @@ require("lazy").setup({
     end,
 },
 {'akinsho/bufferline.nvim', version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function ()
-        require("bufferline").setup({})
-    end
+dependencies = 'nvim-tree/nvim-web-devicons',
+config = function ()
+    require("bufferline").setup({})
+end
 },
 { "rafamadriz/friendly-snippets" },
-{"saadparwaiz1/cmp_luasnip"}
-
-
-
+{"saadparwaiz1/cmp_luasnip"},
+{"mvolkmann/vim-tag-comment"},
+{"voldikss/vim-floaterm"},
 
 
 })
