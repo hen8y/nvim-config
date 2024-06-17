@@ -15,7 +15,22 @@ vim.g.wakatime_show_message = false
 vim.g.mapleader=" "
 
 vim.filetype.add({
-  pattern = {
-    ['.*%.blade%.php'] = 'blade',
-  },
+    pattern = {
+        ['.*%.blade%.php'] = 'blade',
+    },
 })
+
+-- format on save
+vim.api.nvim_create_augroup("AutoFormat", {})
+
+vim.api.nvim_create_autocmd(
+"BufWritePost",
+{
+    pattern = "*.py",
+    group = "AutoFormat",
+    callback = function()
+        vim.cmd("silent !black --quiet %")
+    vim.cmd("edit")
+    end,
+}
+)
