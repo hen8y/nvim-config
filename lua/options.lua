@@ -11,7 +11,7 @@ vim.opt.virtualedit = "block"
 vim.opt.inccommand = "split"
 vim.opt.ignorecase = true
 vim.opt.termguicolors = true
-
+vim.g.wakatime_show_message = false
 vim.g.mapleader=" "
 
 vim.filetype.add({
