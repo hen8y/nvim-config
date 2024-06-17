@@ -2,5 +2,11 @@
 - [ ] format on save
 - [ ] code snippets
 - [ ] syntax support
-- [ ] git support
-- [ ] comments 
+- [x] git support
+- [x] comments
+- [x] auto save 
+- [x] autocomplete
+- [x] fuzzy finder
+- [x] file exporer
+- [x] floaterm
+- [x] butter line
