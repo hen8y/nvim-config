@@ -1,4 +1,4 @@
 ### To-do Features
-- [] format on save
-- [] code snippets
-- [] syntax support
+- [ ] format on save
+- [ ] code snippets
+- [ ] syntax support
