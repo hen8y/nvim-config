@@ -10,3 +10,4 @@
 - [x] file exporer
 - [x] floaterm
 - [x] butter line
+- [x] prettier support
