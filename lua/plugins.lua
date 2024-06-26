@@ -91,7 +91,14 @@ require("lazy").setup({
     },
     {
         'nvim-telescope/telescope.nvim', tag = '0.1.6',
-        dependencies = { 'nvim-lua/plenary.nvim' }
+        dependencies = { 'nvim-lua/plenary.nvim' },
+        config = function ()
+            local builtin = require('telescope.builtin')
+            vim.keymap.set('n', '<leader>ff', builtin.find_files, {})
+            vim.keymap.set('n', '<leader>fg', builtin.live_grep, {})
+            vim.keymap.set('n', '<leader>fb', builtin.buffers, {})
+            vim.keymap.set('n', '<leader>fh', builtin.help_tags, {})
+        end
     },
     {
         "nvim-tree/nvim-tree.lua",
@@ -103,14 +110,19 @@ require("lazy").setup({
                     sorter = "case_sensitive",
                 },
                 view = {
-                    width = 30,
+                    width = 40,
                 },
                 renderer = {
                     group_empty = true,
                 },
                 filters = {
-                    dotfiles = true,
+                    dotfiles = false,
                 },
+                git = {
+                    enable = true,
+                    ignore = false,
+                    timeout = 500,
+                }
             })
         end,
     },
@@ -155,10 +167,6 @@ require("lazy").setup({
     main = "ibl",
     opts = {},
     config = function()
-        local highlight = {
-            "CursorColumn",
-            "Whitespace",
-        }
         require("ibl").setup {
             indent = { char = '┊' },
             whitespace = {
@@ -169,16 +177,82 @@ require("lazy").setup({
     end,
 },
 {'akinsho/bufferline.nvim', version = "*",
-dependencies = 'nvim-tree/nvim-web-devicons',
-config = function ()
-    require("bufferline").setup({})
-end
+    dependencies = 'nvim-tree/nvim-web-devicons',
+    config = function ()
+        require("bufferline").setup({})
+    end
 },
 { "rafamadriz/friendly-snippets" },
 {"saadparwaiz1/cmp_luasnip"},
-{"mvolkmann/vim-tag-comment"},
 {"voldikss/vim-floaterm"},
+{"pocco81/auto-save.nvim",
+    config = function ()
+        require("auto-save").setup ({})
+    end
+},
+{
+    'jose-elias-alvarez/null-ls.nvim',
+    dependencies = {'MunifTanjim/prettier.nvim'},
+    config = function()
+        local null_ls = require("null-ls")
+        local prettier = require("prettier")
 
+        local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+        local event = "BufWritePre" -- or "BufWritePost"
+        local async = event == "BufWritePost"
 
+        null_ls.setup({
+            sources = {
+                -- Add null-ls sources here if needed
+            },
+            on_attach = function(client, bufnr)
+                if client.supports_method("textDocument/formatting") then
+                    vim.keymap.set("n", "<Leader>f", function()
+                        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+                    end, { buffer = bufnr, desc = "[lsp] format" })
+
+                    -- format on save
+                    vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+                    vim.api.nvim_create_autocmd(event, {
+                        buffer = bufnr,
+                        group = group,
+                        callback = function()
+                            vim.lsp.buf.format({ bufnr = bufnr, async = async })
+                        end,
+                        desc = "[lsp] format on save",
+                    })
+                end
+
+                if client.supports_method("textDocument/rangeFormatting") then
+                    vim.keymap.set("x", "<Leader>f", function()
+                        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+                    end, { buffer = bufnr, desc = "[lsp] format" })
+                end
+            end,
+        })
+
+        prettier.setup({
+            bin = 'prettierd',
+            filetypes = {
+                "css",
+                "graphql",
+                "html",
+                "javascript",
+                "javascriptreact",
+                "json",
+                "less",
+                "markdown",
+                "scss",
+                "typescript",
+                "typescriptreact",
+                "yaml",
+            },
+        })
+    end,
+},
+
+{"stephpy/vim-php-cs-fixer"},
+{'yaegassy/coc-blade', run = 'yarn install --frozen-lockfile'},
+{"sindrets/diffview.nvim"}
 })
 
