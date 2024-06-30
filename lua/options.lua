@@ -23,14 +23,9 @@ vim.filetype.add({
 vim.api.nvim_create_user_command(
     'NewFile',
     function(opts)
-        -- Extract the directory and file name from the argument
         local full_path = opts.args
         local dir, file = full_path:match("(.-)([^\\/]-%.?([^%.\\/]*))$")
-
-        -- Ensure the directory exists
         vim.fn.mkdir(dir, "p")
-
-        -- Open the file in a new buffer
         vim.cmd('edit ' .. full_path)
     end,
     { nargs = 1, complete = 'file' }

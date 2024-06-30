@@ -1,6 +1,6 @@
 ### To-do Features
-- [ ] format on save
-- [ ] code snippets
+- [x] format on save
+- [x] code snippets
 - [ ] syntax support
 - [x] git support
 - [x] comments

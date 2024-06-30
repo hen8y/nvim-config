@@ -1,5 +1,3 @@
--- Set up lazy.nvim
-
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -7,8 +5,7 @@ if not (vim.uv or vim.loop).fs_stat(lazypath) then
         "clone",
         "--filter=blob:none",
         "https://github.com/folke/lazy.nvim.git",
-        "--branch=stable", -- latest stable release
-        lazypath,
+        "--branch=stable",        lazypath,
     })
 end
 vim.opt.rtp:prepend(lazypath)
@@ -18,22 +15,27 @@ require("lazy").setup({
     {
         'navarasu/onedark.nvim',
         config = function()
-            require('onedark').setup {
-                style = 'darker' -- Choose your style: 'dark', 'darker', 'cool', 'deep', 'warm', 'warmer', 'light'
-            }
-            require('onedark').load()
+            require('onedark').setup ({
+                style = 'cool'            })
+            -- require('onedark').load()
         end,
+    },
+    {
+        "cpea2506/one_monokai.nvim",
+        config = function()
+            require('one_monokai').setup {}
+        end
+
     },
     change_detection = { notify = false },
     checker = {
-        enabled = true, -- automatically check for plugin updates
-        notify = false, -- get a notification when new updates are found
+        enabled = true,
+        notify = false,
     },
     { "wakatime/vim-wakatime", lazy = false },
     {
         "nvim-treesitter/nvim-treesitter",
         config = function()
-            -- Move this outside the table setup
             local parser_config = require("nvim-treesitter.parsers").get_parser_configs()
             parser_config.blade = {
                 install_info = {
@@ -150,109 +152,106 @@ require("lazy").setup({
             }
         end,
     },
-    { -- Autocompletion
-    'hrsh7th/nvim-cmp',
-    dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
-},
-{
-    'windwp/nvim-autopairs',
-    event = "InsertEnter",
-    config = true
-},
-{
-    "mlaursen/vim-react-snippets",
-},
-{
-    "lukas-reineke/indent-blankline.nvim",
-    main = "ibl",
-    opts = {},
-    config = function()
-        require("ibl").setup {
-            indent = { char = '┊' },
-            whitespace = {
-                remove_blankline_trail = false,
-            },
-            scope = { enabled = false },
-        }
-    end,
-},
-{'akinsho/bufferline.nvim', version = "*",
-    dependencies = 'nvim-tree/nvim-web-devicons',
-    config = function ()
-        require("bufferline").setup({})
-    end
-},
-{ "rafamadriz/friendly-snippets" },
-{"saadparwaiz1/cmp_luasnip"},
-{"voldikss/vim-floaterm"},
-{"pocco81/auto-save.nvim",
-    config = function ()
-        require("auto-save").setup ({})
-    end
-},
-{
-    'jose-elias-alvarez/null-ls.nvim',
-    dependencies = {'MunifTanjim/prettier.nvim'},
-    config = function()
-        local null_ls = require("null-ls")
-        local prettier = require("prettier")
+    {
+        'hrsh7th/nvim-cmp',
+        dependencies = { 'hrsh7th/cmp-nvim-lsp', 'L3MON4D3/LuaSnip', 'saadparwaiz1/cmp_luasnip' },
+    },
+    {
+        'windwp/nvim-autopairs',
+        event = "InsertEnter",
+        config = true
+    },
+    {
+        "mlaursen/vim-react-snippets",
+    },
+    {
+        "lukas-reineke/indent-blankline.nvim",
+        main = "ibl",
+        opts = {},
+        config = function()
+            require("ibl").setup {
+                indent = { char = '┊' },
+                whitespace = {
+                    remove_blankline_trail = false,
+                },
+                scope = { enabled = false },
+            }
+        end,
+    },
+    {'akinsho/bufferline.nvim', version = "*",
+        dependencies = 'nvim-tree/nvim-web-devicons',
+        config = function ()
+            require("bufferline").setup({})
+        end
+    },
+    { "rafamadriz/friendly-snippets" },
+    {"saadparwaiz1/cmp_luasnip"},
+    {"voldikss/vim-floaterm"},
+    {"pocco81/auto-save.nvim",
+        config = function ()
+            require("auto-save").setup ({})
+        end
+    },
+    {
+        'jose-elias-alvarez/null-ls.nvim',
+        dependencies = {'MunifTanjim/prettier.nvim'},
+        config = function()
+            local null_ls = require("null-ls")
+            local prettier = require("prettier")
 
-        local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
-        local event = "BufWritePre" -- or "BufWritePost"
-        local async = event == "BufWritePost"
+            local group = vim.api.nvim_create_augroup("lsp_format_on_save", { clear = false })
+            local event = "BufWritePre"
+            local async = event == "BufWritePost"
 
-        null_ls.setup({
-            sources = {
-                -- Add null-ls sources here if needed
-            },
-            on_attach = function(client, bufnr)
-                if client.supports_method("textDocument/formatting") then
-                    vim.keymap.set("n", "<Leader>f", function()
-                        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-                    end, { buffer = bufnr, desc = "[lsp] format" })
+            null_ls.setup({
+                sources = {},
+                on_attach = function(client, bufnr)
+                    if client.supports_method("textDocument/formatting") then
+                        vim.keymap.set("n", "<Leader>f", function()
+                            vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+                        end, { buffer = bufnr, desc = "[lsp] format" })
 
-                    -- format on save
-                    vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
-                    vim.api.nvim_create_autocmd(event, {
-                        buffer = bufnr,
-                        group = group,
-                        callback = function()
-                            vim.lsp.buf.format({ bufnr = bufnr, async = async })
-                        end,
-                        desc = "[lsp] format on save",
-                    })
-                end
+                        vim.api.nvim_clear_autocmds({ buffer = bufnr, group = group })
+                        vim.api.nvim_create_autocmd(event, {
+                            buffer = bufnr,
+                            group = group,
+                            callback = function()
+                                vim.lsp.buf.format({ bufnr = bufnr, async = async })
+                            end,
+                            desc = "[lsp] format on save",
+                        })
+                    end
 
-                if client.supports_method("textDocument/rangeFormatting") then
-                    vim.keymap.set("x", "<Leader>f", function()
-                        vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
-                    end, { buffer = bufnr, desc = "[lsp] format" })
-                end
-            end,
-        })
+                    if client.supports_method("textDocument/rangeFormatting") then
+                        vim.keymap.set("x", "<Leader>f", function()
+                            vim.lsp.buf.format({ bufnr = vim.api.nvim_get_current_buf() })
+                        end, { buffer = bufnr, desc = "[lsp] format" })
+                    end
+                end,
+            })
 
-        prettier.setup({
-            bin = 'prettierd',
-            filetypes = {
-                "css",
-                "graphql",
-                "html",
-                "javascript",
-                "javascriptreact",
-                "json",
-                "less",
-                "markdown",
-                "scss",
-                "typescript",
-                "typescriptreact",
-                "yaml",
-            },
-        })
-    end,
-},
+            prettier.setup({
+                bin = 'prettierd',
+                filetypes = {
+                    "css",
+                    "graphql",
+                    "html",
+                    "javascript",
+                    "javascriptreact",
+                    "json",
+                    "less",
+                    "markdown",
+                    "scss",
+                    "typescript",
+                    "typescriptreact",
+                    "yaml",
+                },
+            })
+        end,
+    },
 
-{"stephpy/vim-php-cs-fixer"},
-{'yaegassy/coc-blade', run = 'yarn install --frozen-lockfile'},
-{"sindrets/diffview.nvim"}
+    {"stephpy/vim-php-cs-fixer"},
+    {'yaegassy/coc-blade', run = 'yarn install --frozen-lockfile'},
+    {"sindrets/diffview.nvim"}
 })
 
