@@ -1,3 +1,4 @@
+
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not (vim.uv or vim.loop).fs_stat(lazypath) then
     vim.fn.system({
@@ -186,7 +187,15 @@ require("lazy").setup({
     },
     { "rafamadriz/friendly-snippets" },
     {"saadparwaiz1/cmp_luasnip"},
-    {"voldikss/vim-floaterm"},
+    -- {"voldikss/vim-floaterm"},
+    {'akinsho/toggleterm.nvim', version = "*", config = true,
+        config = function ()
+            require("toggleterm").setup({
+                direction = 'vertical',
+                size = 60
+            })
+        end,
+    },
     {"pocco81/auto-save.nvim",
         config = function ()
             require("auto-save").setup ({})
@@ -252,6 +261,24 @@ require("lazy").setup({
 
     {"stephpy/vim-php-cs-fixer"},
     {'yaegassy/coc-blade', run = 'yarn install --frozen-lockfile'},
-    {"sindrets/diffview.nvim"}
+    {"sindrets/diffview.nvim"},
+    {'simrat39/rust-tools.nvim'},
+    {"voldikss/vim-floaterm",
+    config = function ()
+        -- Normal mode mappings
+        vim.keymap.set('n', '<leader>tf', ':FloatermNew<CR>', { silent = true, desc = 'Floaterm New' })
+        vim.keymap.set('n', '<leader>tp', ':FloatermPrev<CR>', { silent = true, desc = 'Floaterm Prev' })
+        vim.keymap.set('n', '<leader>tn', ':FloatermNext<CR>', { silent = true, desc = 'Floaterm Next' })
+        vim.keymap.set('n', '<leader>tt', ':FloatermToggle<CR>', { silent = true, desc = 'Floaterm Toggle' })
+        vim.keymap.set('n', '<leader>tk', ':FloatermKill<CR>', { silent = true, desc = 'Floaterm Kill' })
+
+        -- Terminal mode mappings
+        vim.keymap.set('t', '<leader>tf', '<C-\\><C-n>:FloatermNew<CR>', { silent = true, desc = 'Floaterm New' })
+        vim.keymap.set('t', '<leader>tp', '<C-\\><C-n>:FloatermPrev<CR>', { silent = true, desc = 'Floaterm Prev' })
+        vim.keymap.set('t', '<leader>tn', '<C-\\><C-n>:FloatermNext<CR>', { silent = true, desc = 'Floaterm Next' })
+        vim.keymap.set('t', '<leader>tt', '<C-\\><C-n>:FloatermToggle<CR>', { silent = true, desc = 'Floaterm Toggle' })
+        vim.keymap.set('t', '<leader>tk', '<C-\\><C-n>:FloatermKill<CR>', { silent = true, desc = 'Floaterm Kill' })
+    end
+}
 })
 

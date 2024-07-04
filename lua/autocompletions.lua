@@ -8,7 +8,8 @@ cmp.setup({
         ['<C-Space>'] = cmp.mapping.complete(),
         ['<C-e>'] = cmp.mapping.abort(),
         ['<CR>'] = cmp.mapping.confirm({ select = true }),
-        snippet = {
+    }),
+    snippet = {
         expand = function(args)
             require('luasnip').lsp_expand(args.body)
         end,
