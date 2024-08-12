@@ -19,7 +19,6 @@ vim.filetype.add({
         ['.*%.blade%.php'] = 'blade',
     },
 })
-
 vim.api.nvim_create_user_command(
     'NewFile',
     function(opts)
@@ -31,3 +30,9 @@ vim.api.nvim_create_user_command(
     { nargs = 1, complete = 'file' }
 )
   vim.g.neovide_input_macos_alt_is_meta = true
+
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = false,
+  underline = false,
+})

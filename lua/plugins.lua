@@ -12,7 +12,10 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 
+
 require("lazy").setup({
+    -- themes
+
     {
         'navarasu/onedark.nvim',
         config = function()
@@ -21,13 +24,33 @@ require("lazy").setup({
             -- require('onedark').load()
         end,
     },
+--     {
+--         "cpea2506/one_monokai.nvim",
+--         config = function()
+--             require('one_monokai').setup {}
+--         end
+--
+--     },
     {
-        "cpea2506/one_monokai.nvim",
+        'ribru17/bamboo.nvim',
+        lazy = false,
+        priority = 1000,
         config = function()
-            require('one_monokai').setup {}
-        end
-
+            require('bamboo').setup {
+                style = 'vulgaris',
+                toggle_style_key = nil,
+                toggle_style_list = { 'vulgaris', 'multiplex', 'light' },
+                transparent = false,
+                dim_inactive = false,
+                term_colors = true,
+                ending_tildes = false,
+                cmp_itemkind_reverse = false,
+            }
+            require('bamboo').load()
+        end,
     },
+
+
     change_detection = { notify = false },
     checker = {
         enabled = true,
@@ -142,13 +165,39 @@ require("lazy").setup({
         dependencies = { "mason.nvim" },
         config = function()
             require("mason-lspconfig").setup()
+
+            local lspconfig = require('lspconfig')
+            local configs = require('lspconfig.configs')
+
+            -- Configure Blade LSP
+            configs.blade = {
+                default_config = {
+                    cmd = { "~/repos/laravel-dev-tools", "lsp" },
+                    filetypes = {'blade'},
+                    root_dir = function(fname)
+                        return lspconfig.util.find_git_ancestor(fname)
+                    end,
+                    settings = {},
+                },
+            }
+
+            local capabilities = require('cmp_nvim_lsp').default_capabilities()
+
             require("mason-lspconfig").setup_handlers {
                 function(server_name)
-                    require("lspconfig")[server_name].setup({})
+                    lspconfig[server_name].setup({
+                        capabilities = capabilities
+                    })
                 end,
             }
-            local capabilities = require('cmp_nvim_lsp').default_capabilities()
-            require("lspconfig").lua_ls.setup {
+
+            -- Set up Blade LSP
+            lspconfig.blade.setup{
+                capabilities = capabilities
+            }
+
+            -- Set up Lua LSP
+            lspconfig.lua_ls.setup {
                 capabilities = capabilities
             }
         end,
@@ -192,7 +241,7 @@ require("lazy").setup({
         config = function ()
             require("toggleterm").setup({
                 direction = 'vertical',
-                size = 60
+                size = 50
             })
         end,
     },

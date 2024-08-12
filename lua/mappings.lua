@@ -2,6 +2,10 @@ vim.keymap.set({'n'}, '<M-o>', function ()
     vim.cmd('ToggleTerm')
 end, { silent = true, desc = 'Toggle Toggleterm' })
 
+vim.keymap.set({'n'}, '<M-l>', function ()
+    vim.cmd('FloatermToggle')
+end, { silent = true, desc = 'Toggle Toggleterm' })
+
 vim.keymap.set({'n'}, '<M-p>', function ()
     vim.cmd('NvimTreeToggle')
 end, { silent = true, desc = 'Toggle NvimTree' })
