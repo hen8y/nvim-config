@@ -353,6 +353,14 @@ require("lazy").setup({
     dependencies = {
         "nvim-lua/plenary.nvim"
     }
-}
+},
+{
+    'MagicDuck/grug-far.nvim',
+    config = function()
+        require('grug-far').setup({
+            engine = 'ripgrep'
+        });
+    end
+},
 })
 
