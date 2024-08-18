@@ -14,14 +14,14 @@ vim.opt.rtp:prepend(lazypath)
 
 
 require("lazy").setup({
-    -- themes
+ ------- themes
 
     {
         'navarasu/onedark.nvim',
         config = function()
             require('onedark').setup ({
                 style = 'cool'            })
-            -- require('onedark').load()
+--           require('onedark').load()
         end,
     },
 --     {
@@ -169,17 +169,17 @@ require("lazy").setup({
             local lspconfig = require('lspconfig')
             local configs = require('lspconfig.configs')
 
-            -- Configure Blade LSP
-            configs.blade = {
-                default_config = {
-                    cmd = { "~/repos/laravel-dev-tools", "lsp" },
-                    filetypes = {'blade'},
-                    root_dir = function(fname)
-                        return lspconfig.util.find_git_ancestor(fname)
-                    end,
-                    settings = {},
-                },
-            }
+------ Configure Blade LSP
+--            configs.blade = {
+--                default_config = {
+--                    cmd = { "~/repos/laravel-dev-tools", "lsp" },
+--                    filetypes = {'blade'},
+--                    root_dir = function(fname)
+--                        return lspconfig.util.find_git_ancestor(fname)
+--                    end,
+--                    settings = {},
+--                },
+--            }
 
             local capabilities = require('cmp_nvim_lsp').default_capabilities()
 
@@ -191,10 +191,10 @@ require("lazy").setup({
                 end,
             }
 
-            -- Set up Blade LSP
-            lspconfig.blade.setup{
-                capabilities = capabilities
-            }
+--           Set up Blade LSP
+--            lspconfig.blade.setup{
+--                capabilities = capabilities
+--            }
 
             -- Set up Lua LSP
             lspconfig.lua_ls.setup {
@@ -328,6 +328,31 @@ require("lazy").setup({
         vim.keymap.set('t', '<leader>tt', '<C-\\><C-n>:FloatermToggle<CR>', { silent = true, desc = 'Floaterm Toggle' })
         vim.keymap.set('t', '<leader>tk', '<C-\\><C-n>:FloatermKill<CR>', { silent = true, desc = 'Floaterm Kill' })
     end
+},
+{
+    'ccaglak/larago.nvim',
+    dependencies = {
+        "nvim-lua/plenary.nvim"
+    }
+},
+{
+    'TobinPalmer/rayso.nvim',
+    cmd = { 'Rayso' },
+    config = function()
+        require('rayso').setup {}
+    end
+},
+{  -- lazy
+    'ccaglak/namespace.nvim',
+    keys = {
+        { "<leader>la", "<cmd>GetClasses<cr>"},
+        { "<leader>lc", "<cmd>GetClass<cr>"},
+        { "<leader>ls", "<cmd>ClassAs<cr>"},
+        { "<leader>ln", "<cmd>Namespace<cr>"},
+    },
+    dependencies = {
+        "nvim-lua/plenary.nvim"
+    }
 }
 })
 
