@@ -36,3 +36,9 @@ vim.diagnostic.config({
   signs = false,
   underline = false,
 })
+vim.cmd([[
+    autocmd BufNewFile,BufRead *.blade.php set filetype=blade
+    autocmd FileType blade setlocal filetype=blade.html.blade
+]])
+
+
