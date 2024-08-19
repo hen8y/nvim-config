@@ -192,7 +192,7 @@ require("lazy").setup({
             -- function to handle .class expansion
             local function handle_dot_expansion()
                 local filetype = vim.bo.filetype
-                if filetype ~= 'html' and filetype ~= 'blade.html.blade' then
+                if filetype ~= 'html' and filetype ~= 'php.html.blade' then
                     return false
                 end
 
