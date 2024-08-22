@@ -80,8 +80,8 @@ require("lazy").setup({
                 incremental_selection = {
                     enable = true,
                     keymaps = {
-                        init_selection = "<Leader>ss",
-                        node_incremental = "<Leader>no",
+                        init_selection = "<Leader>gs",
+                        node_incremental = "<Leader>go",
                         scope_incremental = "<Leader>sc",
                         node_decremental = "<Leader>nod",
                     },
@@ -189,10 +189,12 @@ require("lazy").setup({
             local cmp = require('cmp')
             local luasnip = require('luasnip')
 
+
+            luasnip.filetype_extend("blade", {"html"})
             -- function to handle .class expansion
             local function handle_dot_expansion()
                 local filetype = vim.bo.filetype
-                if filetype ~= 'html' and filetype ~= 'php.html.blade' then
+                if filetype ~= 'html' and filetype ~= 'vue' and filetype ~= 'blade' then
                     return false
                 end
 
@@ -343,6 +345,7 @@ require("lazy").setup({
     {"sindrets/diffview.nvim"},
     {'simrat39/rust-tools.nvim'},
     {"honza/vim-snippets"},
+    {"numToStr/Comment.nvim"},
     {"voldikss/vim-floaterm",
     config = function ()
         -- Normal mode mappings
@@ -392,6 +395,16 @@ require("lazy").setup({
             engine = 'ripgrep'
         });
     end
-}
+},
+{
+    "andrewferrier/wrapping.nvim",
+    config = function()
+        require("wrapping").setup({
+            notify_on_switch = false,
+        })
+        require('wrapping').soft_wrap_mode()
+    end
+},
+
 })
 

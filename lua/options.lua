@@ -29,16 +29,12 @@ vim.api.nvim_create_user_command(
     end,
     { nargs = 1, complete = 'file' }
 )
-  vim.g.neovide_input_macos_alt_is_meta = true
+vim.g.neovide_input_macos_alt_is_meta = true
 
 vim.diagnostic.config({
-  virtual_text = false,
-  signs = false,
-  underline = false,
+    virtual_text = false,
+    underline = false,
 })
-vim.cmd([[
-    autocmd BufNewFile,BufRead *.blade.php set filetype=blade
-    autocmd FileType blade setlocal filetype=php.html.blade
-]])
+
 
 
