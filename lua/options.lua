@@ -14,11 +14,7 @@ vim.opt.termguicolors = true
 vim.g.wakatime_show_message = false
 vim.g.mapleader=" "
 
-vim.filetype.add({
-    pattern = {
-        ['.*%.blade%.php'] = 'blade',
-    },
-})
+
 vim.api.nvim_create_user_command(
     'NewFile',
     function(opts)

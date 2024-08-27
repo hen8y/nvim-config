@@ -19,4 +19,8 @@ vim.keymap.set({'n'}, '<M-g>', function ()
 end, { silent = true, desc = 'Open Git Diff View' })
 vim.keymap.set("n", "<leader>gg", "<cmd>GoBlade<cr>")
 vim.keymap.set('v', '<leader>rs', require('lib.create').create_snippet)
+vim.api.nvim_create_user_command('Fmt', function()
+  local current_file = vim.fn.expand('%:p')
+  vim.cmd('!blade-formatter ' .. current_file .. ' --write')
+end, {})
 

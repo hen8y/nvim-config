@@ -69,7 +69,11 @@ require("lazy").setup({
                 },
                 filetype = "blade",
             }
-
+            vim.filetype.add({
+                pattern = {
+                    ['.*%.blade%.php'] = 'blade',
+                },
+            })
 
             require('nvim-treesitter.configs').setup({
                 ensure_installed = { "c", "lua", "vim", "vimdoc", "query", "json", "php", "javascript", "blade" },
