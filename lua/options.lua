@@ -13,7 +13,12 @@ vim.opt.ignorecase = true
 vim.opt.termguicolors = true
 vim.g.wakatime_show_message = false
 vim.g.mapleader=" "
-
+vim.g.maplocalleader = ','
+vim.g.neovide_input_macos_alt_is_meta = true
+vim.diagnostic.config({
+    virtual_text = false,
+    underline = false,
+})
 
 vim.api.nvim_create_user_command(
     'NewFile',
@@ -25,12 +30,3 @@ vim.api.nvim_create_user_command(
     end,
     { nargs = 1, complete = 'file' }
 )
-vim.g.neovide_input_macos_alt_is_meta = true
-
-vim.diagnostic.config({
-    virtual_text = false,
-    underline = false,
-})
-
-
-
