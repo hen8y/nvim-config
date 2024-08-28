@@ -103,5 +103,4 @@ return
         event = "InsertEnter",
         config = true
     },
-    {"saadparwaiz1/cmp_luasnip"}
 }

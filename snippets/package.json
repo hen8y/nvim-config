@@ -1,0 +1,19 @@
+{
+	"name": "my-snippets",
+	"contributes": {
+		"snippets": [
+			{
+				"language": [
+					"blade"
+				],
+				"path": "./languages/blade.json"
+			},
+            {
+				"language": [
+					"php"
+				],
+				"path": "./languages/php.json"
+			},
+		]
+	}
+}

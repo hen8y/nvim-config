@@ -1,0 +1,23 @@
+{
+    "php public function": {
+        "prefix": "publicFn",
+        "body": [
+            "public function ${1:name}",
+            "{",
+                "   ",
+                "} "
+        ],
+        "description": "php public function",
+    },
+    "static php public function": {
+        "prefix": "staticPublicFn",
+        "body": [
+            "public static function ${1:name}",
+            "{",
+                "   ",
+                "} "
+        ],
+        "description": "static php public function",
+    }
+
+}
